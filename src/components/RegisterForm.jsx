@@ -9,7 +9,7 @@ export default function RegisterForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3008/register', {
+    const response = await fetch('http://localhost:3011/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

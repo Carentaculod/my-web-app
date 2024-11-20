@@ -7,9 +7,6 @@ export default function ProfilePage() {
     name: '',
     email: '',
     age: '',
-    weight: '',
-    height: '',
-    symptoms: '',
     address: '',
     emergencyContact: '',
     profilePic: '', // Added profilePic to user data
@@ -28,7 +25,7 @@ export default function ProfilePage() {
       }
     } else {
       console.log("No valid user data found in localStorage");
-      navigate('/login'); // Redirect to login if no user data
+      navigate('/'); // Redirect to login if no user data
     }
   }, [navigate]);
 
@@ -65,6 +62,11 @@ export default function ProfilePage() {
     setIsEditing((prevEdit) => !prevEdit);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate('/'); // Redirect to login
+  };
+
   if (!user) {
     return <div style={styles.loading}>Loading user data...</div>;
   }
@@ -94,12 +96,6 @@ export default function ProfilePage() {
             <>
               <label>Age:</label>
               <input type="text" name="age" value={user.age} onChange={handleInputChange} />
-              <label>Weight:</label>
-              <input type="text" name="weight" value={user.weight} onChange={handleInputChange} />
-              <label>Height:</label>
-              <input type="text" name="height" value={user.height} onChange={handleInputChange} />
-              <label>Symptoms:</label>
-              <input type="text" name="symptoms" value={user.symptoms} onChange={handleInputChange} />
               <label>Address:</label>
               <input type="text" name="address" value={user.address} onChange={handleInputChange} />
               <label>Emergency Contact:</label>
@@ -108,16 +104,18 @@ export default function ProfilePage() {
           ) : (
             <>
               <p><strong>Age:</strong> {user.age || 'N/A'}</p>
-              <p><strong>Weight:</strong> {user.weight || 'N/A'}</p>
-              <p><strong>Height:</strong> {user.height || 'N/A'}</p>
-              <p><strong>Symptoms:</strong> {user.symptoms || 'N/A'}</p>
               <p><strong>Address:</strong> {user.address || 'N/A'}</p>
               <p><strong>Emergency Contact:</strong> {user.emergencyContact || 'N/A'}</p>
             </>
           )}
-          <button onClick={toggleEdit} style={styles.editButton}>
-            {isEditing ? "Save" : "Edit Profile"}
-          </button>
+          <div style={styles.buttonContainer}>
+            <button onClick={toggleEdit} style={styles.editButton}>
+              {isEditing ? "Save" : "Edit Profile"}
+            </button>
+            <button onClick={handleLogout} style={styles.logoutButton}>
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -131,7 +129,7 @@ const styles = {
     alignItems: 'center',
     minHeight: '100vh',
     minWidth: '100vw',
-    backgroundColor: '#e0f7fa',
+    backgroundColor: '#f0f4f8',
     padding: '20px',
   },
   profileContainer: {
@@ -173,6 +171,22 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
+    width: '100%',
+  },
+  logoutButton: {
+    marginTop: '10px',
+    padding: '10px 20px',
+    backgroundColor: '#ff5252',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    width: '100%',
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
   },
   loading: {
     display: 'flex',

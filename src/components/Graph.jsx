@@ -26,7 +26,7 @@ const UserGraph = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3008/getAllUsers');
+        const response = await axios.get('http://localhost:3011/getAllUsers');
         setUsers(response.data);
       } catch (err) {
         setError('Error fetching users');

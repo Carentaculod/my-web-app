@@ -13,7 +13,7 @@ const UserTable = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3008/getAllUsers');
+        const response = await axios.get('http://localhost:3011/getAllUsers');
         setUsers(response.data);
       } catch (err) {
         setError('Error fetching users');
@@ -24,18 +24,6 @@ const UserTable = () => {
 
     fetchUsers();
   }, []);
-
-  const handlePrediction = async (user) => {
-    try {
-      const response = await axios.post('http://localhost:3008/predict', user);
-      const updatedUser = { ...user, predictionField: response.data.prediction };
-      setUsers((prevUsers) =>
-        prevUsers.map((u) => (u.id === user.id ? updatedUser : u))
-      );
-    } catch (error) {
-      console.error('Error making prediction:', error);
-    }
-  };
 
   const handleBack = () => {
     navigate(-1);  // Navigates to the previous page
@@ -75,8 +63,7 @@ const UserTable = () => {
             <th>Monthly Income</th>
             <th>4ps Beneficiary</th>
             <th>Number of Family Members</th>
-            <th>Prediction Field</th>
-            <th>Actions</th>
+            <th>Prediction Field</th> {/* Prediction Field Column remains */}
           </tr>
         </thead>
         <tbody>
@@ -92,15 +79,12 @@ const UserTable = () => {
                 <td>{user.monthly_income}</td>
                 <td>{user.beneficiary}</td>
                 <td>{user.number_of_family_members}</td>
-                <td>{user.predictionField}</td>
-                <td>
-                  <button onClick={() => handlePrediction(user)}>Predict</button>
-                </td>
+                <td>{user.predictionField}</td> {/* Displaying the prediction field */}
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="11">No users found</td>
+              <td colSpan="10">No users found</td>
             </tr>
           )}
         </tbody>

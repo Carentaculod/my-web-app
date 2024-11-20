@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import bgImage from '../assets/bg.png';
+import bgImage from '../assets/bg.png'; // Make sure this path is correct
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -11,7 +11,7 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3008/login', {
+      const response = await fetch('http://localhost:3011/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -19,6 +19,7 @@ export default function LoginForm() {
 
       const data = await response.json();
       if (response.ok) {
+        // Store user data, including profilePic, in localStorage
         localStorage.setItem("user", JSON.stringify(data.user));
         setMessage(data.message);
         navigate('/home');
@@ -54,7 +55,7 @@ export default function LoginForm() {
         <button type="submit" style={styles.button}>Login</button>
         <p style={styles.message}>{message}</p>
         <p style={styles.registerLink}>
-          Dont have an account? <Link to="/register" style={styles.link}>Register here</Link>
+          You dont have an account? <Link to="/register" style={styles.link}>Register here</Link>
         </p>
       </form>
     </div>
@@ -69,7 +70,7 @@ const styles = {
     alignItems: 'center',
     height: '100vh',
     width: '100vw',
-    backgroundImage: `url(${bgImage})`,
+    backgroundImage: `url(${bgImage})`, // Corrected this line
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
